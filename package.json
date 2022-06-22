@@ -1,0 +1,29 @@
+{
+    "name": "@sampilib/ui-application",
+    "version": "0.0.1",
+    "description": "Library for creating applications",
+    "main": "index.js",
+    "scripts": {
+        "test": "webpack serve --config test\\webpack.dev.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SampiLib/UI-Application.git"
+    },
+    "author": "chocolateandmilkwin",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/SampiLib/UI-Application/issues"
+    },
+    "homepage": "https://github.com/SampiLib/UI-Application#readme",
+    "dependencies": {
+        "@sampilib/colors": "^1.0.0",
+        "@sampilib/theme": "^0.0.1"
+    },
+    "devDependencies": {
+        "webpack": "=5.73.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-dev-server": "=4.9.2",
+        "webpack-merge": "^5.8.0"
+    }
+}

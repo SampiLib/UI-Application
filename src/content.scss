@@ -1,0 +1,137 @@
+$scrollBarBasisModern:0.6rem;
+$scrollBarBasisNormal:1.2rem;
+$scrollBarBasisLarge:2.4rem;
+
+ui-contentcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.contentContainer>.content {
+    background-color: var(--contentBackGround);
+    color: var(--contentTextColor);
+    position: relative;
+    flex-grow: 1;
+    overflow: auto;
+
+    &:focus {
+        outline: none;
+    }
+
+    .anim & {
+        transition: background-color var(--colorTransitionType) var(--colorTransitionTime), color var(--colorTransitionType) var(--colorTransitionTime);
+    }
+}
+
+.contentContainer,
+.contentContainer>.content {
+
+    ::-webkit-scrollbar-track {
+        background-color: inherit;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--scrollBarColor);
+        border-radius: 100vh;
+        border: 0.2rem solid var(--contentBackGround);
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollBarHover);
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    .scrollModern & {
+        ::-webkit-scrollbar {
+            width: $scrollBarBasisModern;
+            height: $scrollBarBasisModern;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-width: 0.15rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            min-width: $scrollBarBasisModern + 1rem;
+            min-height: $scrollBarBasisModern + 1rem;
+        }
+
+        scrollbar-width: thin;
+    }
+
+    .scrollNormal & {
+        ::-webkit-scrollbar {
+            width: $scrollBarBasisNormal;
+            height: $scrollBarBasisNormal;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            min-width: $scrollBarBasisNormal + 1rem;
+            min-height: $scrollBarBasisNormal + 1rem;
+        }
+    }
+
+    .scrollLarge & {
+        ::-webkit-scrollbar {
+            width: $scrollBarBasisLarge;
+            height: $scrollBarBasisLarge;
+        }
+
+        ::-webkit-scrollbar-button {
+            width: $scrollBarBasisLarge;
+            height: $scrollBarBasisLarge;
+            background-color: var(--scrollBarColor);
+            border-radius: 50%;
+            border: 0.2rem solid var(--contentBackGround);
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+        }
+
+        ::-webkit-scrollbar-button:hover {
+            background: var(--scrollBarHover);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            min-width: $scrollBarBasisLarge + 1rem;
+            min-height: $scrollBarBasisLarge + 1rem;
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:increment,
+        ::-webkit-scrollbar-button:vertical:end:decrement,
+        ::-webkit-scrollbar-button:horizontal:start:increment,
+        ::-webkit-scrollbar-button:horizontal:end:decrement {
+            display: none;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:increment,
+        ::-webkit-scrollbar-button:vertical:start:decrement,
+        ::-webkit-scrollbar-button:horizontal:end:increment,
+        ::-webkit-scrollbar-button:horizontal:start:decrement {
+            display: block;
+        }
+
+        ::-webkit-scrollbar-button:vertical:end:increment {
+            border-radius: 30% 30% 50% 50%;
+        }
+
+        ::-webkit-scrollbar-button:vertical:start:decrement {
+            border-radius: 50% 50% 30% 30%;
+        }
+
+        ::-webkit-scrollbar-button:horizontal:end:increment {
+            border-radius: 30% 50% 50% 30%;
+        }
+
+        ::-webkit-scrollbar-button:horizontal:start:decrement {
+            border-radius: 50% 30% 30% 50%;
+        }
+    }
+}

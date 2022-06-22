@@ -1,0 +1,19 @@
+{
+  "name": "@sampilib/colors",
+  "version": "1.0.0",
+  "description": "Library of nice colors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SampiLib/Colors.git"
+  },
+  "author": "chocolateandmilkwin",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/SampiLib/Colors/issues"
+  },
+  "homepage": "https://github.com/SampiLib/Colors#readme"
+}

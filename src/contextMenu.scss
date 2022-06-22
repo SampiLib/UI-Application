@@ -1,0 +1,154 @@
+$lineHeight:2rem;
+
+ui-contextmenu {
+    >div {
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        max-height: 44vh;
+    }
+}
+
+ui-contextmenuwaiter {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 $lineHeight;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: var(--contextMenuBackgroundColor);
+    width: 8rem;
+
+    >svg {
+        height: $lineHeight;
+        width: 2rem;
+        fill: var(--contextMenuIconColor);
+
+        &.waiting {
+            transform-origin: center;
+
+            @keyframes rotating {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(180deg);
+                }
+            }
+
+            animation: rotating ease-in-out 1.4s infinite;
+        }
+    }
+
+    .touch & {
+        flex-basis: 3rem;
+    }
+
+    .anim & {
+        transition: flex-basis var(--sizeTransitionType) var(--sizeTransitionTime);
+    }
+
+    .touch &>svg {
+        flex: 0 0 2rem;
+        width: 2rem;
+    }
+}
+
+ui-contextmenuline,
+ui-contextmenusubmenu {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 $lineHeight;
+    justify-content: flex-start;
+    color: var(--contextMenuTextColor);
+    padding-right: 1rem;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: var(--contextMenuBackgroundColor);
+
+    &.READ {
+        pointer-events: none;
+        filter: opacity(0.4);
+    }
+
+    &.NONE {
+        display: none;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: inset 0px 0px 0px 2px var(--contextMenuHoverColor);
+    }
+
+    &:first-child:focus-visible {
+        border-radius: 0.4rem 0.4rem 0rem 0rem;
+    }
+
+    &:last-child:focus-visible {
+        border-radius: 0rem 0rem 0.4rem 0.4rem;
+    }
+
+    @media(hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: var(--contextMenuHoverColor);
+            color: var(--contextMenuHoverTextColor);
+        }
+    }
+
+    >svg {
+        height: $lineHeight;
+        width: 2rem;
+        fill: var(--contextMenuIconColor);
+    }
+
+    >div {
+        max-width: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &:last-child {
+            margin-left: auto;
+            padding-left: 1rem;
+            text-align: end;
+        }
+    }
+
+    >ui-contentcontainer {
+        position: fixed;
+        width: min-content;
+        height: min-content;
+        max-height: 49vh;
+        border: 1px solid var(--windowTitleColor);
+        border-radius: 0.4rem;
+    }
+
+    .touch & {
+        flex-basis: 3rem;
+    }
+
+    .anim & {
+        transition: flex-basis var(--sizeTransitionType) var(--sizeTransitionTime);
+    }
+
+    .touch &>svg {
+        flex: 0 0 2rem;
+        width: 2rem;
+    }
+}
+
+ui-contextmenudevider {
+    flex: 0 0 1px;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    background-color: var(--contextMenuDeviderColor);
+}

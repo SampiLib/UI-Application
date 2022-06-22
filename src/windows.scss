@@ -1,0 +1,487 @@
+$titlebarHeight: 2rem;
+$titlebarHeightTouch: 2.5rem;
+
+
+/*################################################
+ *     __          ___           _               #
+ *     \ \        / (_)         | |              #
+ *      \ \  /\  / / _ _ __   __| | _____      __#
+ *       \ \/  \/ / | | '_ \ / _` |/ _ \ \ /\ / /#
+ *        \  /\  /  | | | | | (_| | (_) \ V  V / #
+ *         \/  \/   |_|_| |_|\__,_|\___/ \_/\_/  #
+ *##############################################*/
+
+:root {
+    --windowVisSizerSize: 0.8rem;
+    --windowVisSizerSizeTouch: 1.6rem;
+    --windowVisSizerCornerSize: 1rem;
+    --windowVisSizerCornerSizeTouch: 2rem;
+}
+
+ui-windowmanager {
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    right: 0rem;
+    bottom: 0rem;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000000000;
+
+    >* {
+        top: 0rem;
+        left: 0rem;
+        right: 0rem;
+        bottom: 0rem;
+        pointer-events: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .anim & {
+        transition: top var(--sizeTransitionType) var(--sizeTransitionTime), left var(--sizeTransitionType) var(--sizeTransitionTime), right var(--sizeTransitionType) var(--sizeTransitionTime), bottom var(--sizeTransitionType) var(--sizeTransitionTime);
+    }
+
+    html.external & {
+        top: 0rem !important;
+        left: 0rem !important;
+        right: 0rem !important;
+        bottom: 0rem !important;
+    }
+}
+
+ui-window {
+    position: absolute;
+    box-shadow: 0px 0px 6px var(--windowShadowColor);
+    touch-action: none;
+    display: flex;
+    flex-direction: column;
+    -webkit-user-select: none;
+    user-select: none;
+    border-radius: var(--windowCornerRadius);
+    box-sizing: border-box;
+    pointer-events: all;
+
+    &:focus-within {
+        outline: none;
+        box-shadow: 0px 0px 6px var(--windowFocusColor);
+    }
+
+    >.contentContainer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 0 0 var(--windowCornerRadius) var(--windowCornerRadius);
+
+        >div {
+            background-color: var(--contentBackGround);
+            position: relative;
+            flex-grow: 1;
+            overflow: auto;
+
+            .anim & {
+                transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+            }
+        }
+    }
+
+    &.titleLess>.contentContainer {
+        border-radius: var(--windowCornerRadius);
+    }
+
+    >.background {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: -2;
+        background-color: #00000080;
+    }
+
+    >.title {
+        background-color: var(--windowTitleColor);
+        flex: 0 0 $titlebarHeight;
+        display: flex;
+        flex-direction: row;
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: none;
+        border-radius: var(--windowCornerRadius) var(--windowCornerRadius) 0 0;
+
+        &[moveable="1"] {
+            cursor: -webkit-grab;
+            cursor: grab;
+        }
+
+        &[moveable="2"] {
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+        }
+
+        .touch & {
+            flex-basis: $titlebarHeightTouch;
+        }
+
+        .anim & {
+            transition: background-color var(--colorTransitionType) var(--colorTransitionTime), flex-basis var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        >:first-child {
+            height: 100%;
+            min-width: 0.2rem;
+            flex-shrink: 3;
+
+            &.icon {
+                box-sizing: border-box;
+                max-width: 3rem;
+                padding: 0.2rem;
+                fill: var(--tabIconColor);
+
+                .touch & {
+                    padding: 0.3rem;
+                }
+
+                .anim & {
+                    transition: fill var(--colorTransitionType) var(--colorTransitionTime), padding var(--sizeTransitionType) var(--sizeTransitionTime);
+                }
+            }
+        }
+
+        >.text {
+            flex: 1 1 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0.3rem 0rem 0.3rem 0.3rem;
+            color: var(--windowTitleTextColor);
+
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+
+            .anim & {
+                transition: color var(--colorTransitionType) var(--colorTransitionTime);
+            }
+        }
+
+        >.closer {
+            cursor: pointer;
+            flex: 0 2 $titlebarHeight;
+            border-radius: 0 var(--windowCornerRadius) 0 0;
+            background-color: var(--windowTitleColor);
+            fill: var(--windowTitleIconColor);
+            padding: 0.3rem;
+            height: inherit;
+            overflow: visible;
+
+            .touch & {
+                flex-basis: $titlebarHeightTouch;
+                padding: 0.4rem;
+            }
+
+            .anim & {
+                transition: fill var(--colorTransitionType) var(--colorTransitionTime), background-color var(--colorTransitionType) var(--colorTransitionTime), flex-basis var(--sizeTransitionType) var(--sizeTransitionTime), padding var(--sizeTransitionType) var(--sizeTransitionTime);
+            }
+
+            &:hover {
+                filter: brightness(var(--hover));
+            }
+
+            &.waiting>* {
+                transform-origin: center;
+
+                @keyframes rotating {
+                    from {
+                        transform: rotate(0deg);
+                    }
+
+                    to {
+                        transform: rotate(180deg);
+                    }
+                }
+
+                animation: rotating ease-in-out 1.4s infinite;
+            }
+        }
+    }
+
+    &.contentLess>.title {
+        border-radius: var(--windowCornerRadius);
+
+        >.closer {
+            border-radius: 0 var(--windowCornerRadius) var(--windowCornerRadius) 0;
+        }
+    }
+
+    &.visible {
+        .anim & {
+            transition: padding var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        &.top {
+            padding-top: var(--windowVisSizerSize);
+
+            .touch & {
+                padding-top: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        &.left {
+            padding-left: var(--windowVisSizerSize);
+
+            .touch & {
+                padding-left: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        &.bottom {
+            padding-bottom: var(--windowVisSizerSize);
+
+            .touch & {
+                padding-bottom: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        &.right {
+            padding-right: var(--windowVisSizerSize);
+
+            .touch & {
+                padding-right: var(--windowVisSizerSizeTouch);
+            }
+        }
+    }
+
+
+    /*Window Sizer*/
+    >.sizer {
+        position: absolute;
+        top: 0rem;
+        left: 0rem;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+
+        >.topLeft {
+            top: 0rem;
+            left: 0rem;
+            z-index: 1;
+            width: var(--windowVisSizerCornerSize);
+            height: var(--windowVisSizerCornerSize);
+            cursor: nw-resize;
+
+            .touch & {
+                width: var(--windowVisSizerCornerSizeTouch);
+                height: var(--windowVisSizerCornerSizeTouch);
+            }
+        }
+
+        >.bottomLeft {
+            bottom: 0rem;
+            left: 0rem;
+            z-index: 1;
+            width: var(--windowVisSizerCornerSize);
+            height: var(--windowVisSizerCornerSize);
+            cursor: sw-resize;
+
+            .touch & {
+                width: var(--windowVisSizerCornerSizeTouch);
+                height: var(--windowVisSizerCornerSizeTouch);
+            }
+        }
+
+        >.topRight {
+            top: 0rem;
+            right: 0rem;
+            z-index: 1;
+            width: var(--windowVisSizerCornerSize);
+            height: var(--windowVisSizerCornerSize);
+            cursor: ne-resize;
+
+            .touch & {
+                width: var(--windowVisSizerCornerSizeTouch);
+                height: var(--windowVisSizerCornerSizeTouch);
+            }
+        }
+
+        >.bottomRight {
+            bottom: 0rem;
+            right: 0rem;
+            z-index: 1;
+            width: var(--windowVisSizerCornerSize);
+            height: var(--windowVisSizerCornerSize);
+            cursor: se-resize;
+
+            .touch & {
+                width: var(--windowVisSizerCornerSizeTouch);
+                height: var(--windowVisSizerCornerSizeTouch);
+            }
+        }
+
+        &.top {
+            top: -0.5rem;
+            height: calc(100% + 0.5rem);
+
+            &.bottom {
+                height: calc(100% + 1rem);
+            }
+        }
+
+        &.left {
+            left: -0.5rem;
+            width: calc(100% + 0.5rem);
+
+            &.right {
+                width: calc(100% + 1rem);
+            }
+        }
+
+        &.bottom {
+            height: calc(100% + 0.5rem);
+        }
+
+        &.right {
+            width: calc(100% + 0.5rem);
+        }
+
+        svg {
+            position: absolute;
+            padding: 0.2rem;
+            height: 100%;
+            width: 100%;
+        }
+
+        .touch & svg {
+            padding: 0.5rem;
+        }
+
+        >* {
+            position: absolute;
+            fill: var(--windowTitleIconColor);
+        }
+
+        >.top {
+            top: 0rem;
+            left: 0rem;
+            width: 100%;
+            height: 0.5rem;
+            cursor: n-resize;
+        }
+
+        >.bottom {
+            bottom: 0rem;
+            left: 0rem;
+            width: 100%;
+            height: 0.5rem;
+            cursor: s-resize;
+        }
+
+        >.left {
+            top: 0rem;
+            left: 0rem;
+            height: 100%;
+            width: 0.5rem;
+            cursor: w-resize;
+        }
+
+        >.right {
+            top: 0rem;
+            right: 0rem;
+            height: 100%;
+            width: 0.5rem;
+            cursor: e-resize;
+        }
+    }
+
+    &.visible>.sizer {
+        background-color: var(--windowSizerColor);
+        top: 0rem !important;
+        left: 0rem !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: var(--windowCornerRadius);
+
+        .anim & {
+            transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+        }
+
+        .anim &>div {
+            transition: width var(--sizeTransitionType) var(--sizeTransitionTime), height var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        .anim & svg {
+            transition: fill var(--colorTransitionType) var(--colorTransitionTime), padding var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        >.top {
+            top: 0rem;
+            left: 0rem;
+            width: 100%;
+            height: var(--windowVisSizerSize);
+            cursor: n-resize;
+
+            .touch & {
+                height: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        >.bottom {
+            bottom: 0rem;
+            left: 0rem;
+            width: 100%;
+            height: var(--windowVisSizerSize);
+            cursor: s-resize;
+
+            .touch & {
+                height: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        >.left {
+            top: 0rem;
+            left: 0rem;
+            height: 100%;
+            width: var(--windowVisSizerSize);
+            cursor: w-resize;
+
+            .touch & {
+                width: var(--windowVisSizerSizeTouch);
+            }
+        }
+
+        >.right {
+            top: 0rem;
+            right: 0rem;
+            height: 100%;
+            width: var(--windowVisSizerSize);
+            cursor: e-resize;
+
+            .touch & {
+                width: var(--windowVisSizerSizeTouch);
+            }
+        }
+    }
+
+    >.content {
+        flex-grow: 1;
+        border-radius: 0 0 var(--windowCornerRadius) var(--windowCornerRadius);
+
+        >.content {
+            border-radius: 0 0 var(--windowCornerRadius) var(--windowCornerRadius);
+        }
+    }
+
+    &.titleLess>.content {
+        border-radius: var(--windowCornerRadius);
+
+        >.content {
+            border-radius: var(--windowCornerRadius);
+        }
+    }
+}

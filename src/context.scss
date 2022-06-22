@@ -1,0 +1,533 @@
+@use "sass:math";
+
+$tabHeight: 1.8rem;
+$tabHeightTouch: 2.3rem;
+
+:root {
+    --dropperSize: 3rem;
+    --dropperSizeTouch: 2.3rem;
+}
+
+ui-contextdropper {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    --dropperSizeHalf: var(--dropperSize) / 2;
+    top: $tabHeight;
+    height: calc(100% - #{$tabHeight});
+    z-index: 999999999;
+    touch-action: none;
+
+    .touch & {
+        top: $tabHeightTouch;
+        height: calc(100% - #{$tabHeightTouch});
+    }
+
+    >* {
+        display: none;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.1);
+        fill: var(--tabIconColor);
+
+        .anim & {
+            transition: fill var(--colorTransitionType) var(--colorTransitionTime), background-color var(--colorTransitionType) var(--colorTransitionTime);
+        }
+    }
+
+    &.center {
+        >.center {
+            display: block;
+            top: calc(50% - var(--dropperSizeHalf));
+            left: calc(50% - var(--dropperSizeHalf));
+            width: var(--dropperSize);
+            height: var(--dropperSize);
+        }
+    }
+
+    &.groups {
+        >.left {
+            display: block;
+            position: absolute;
+            top: calc(50% - var(--dropperSizeHalf));
+            left: 0;
+            width: var(--dropperSize);
+            height: var(--dropperSize);
+        }
+
+        >.right {
+            display: block;
+            position: absolute;
+            top: calc(50% - var(--dropperSizeHalf));
+            right: 0;
+            width: var(--dropperSize);
+            height: var(--dropperSize);
+        }
+
+        >.top {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: calc(50% - var(--dropperSizeHalf));
+            width: var(--dropperSize);
+            height: var(--dropperSize);
+        }
+
+        >.bottom {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: calc(50% - var(--dropperSizeHalf));
+            width: var(--dropperSize);
+            height: var(--dropperSize);
+        }
+    }
+}
+
+/*############################################
+//#     _____            _            _      #
+//#    / ____|          | |          | |     #
+//#   | |     ___  _ __ | |_ _____  _| |_    #
+//#   | |    / _ \| '_ \| __/ _ \ \/ / __|   #
+//#   | |___| (_) | | | | ||  __/>  <| |_    #
+//#    \_____\___/|_| |_|\__\___/_/\_\\__|   #
+//##########################################*/
+
+ui-context.contentContainer.content {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--tabBackGround);
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+
+    &:focus {
+        outline: none;
+    }
+
+    >div {
+        height: $tabHeight;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        flex-shrink: 0;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .touch & {
+            height: $tabHeightTouch;
+        }
+
+        .anim & {
+            transition: height var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        >div {
+            width: max-content;
+            display: flex;
+            flex-direction: row;
+            height: inherit;
+        }
+    }
+
+    .anim & {
+        transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+    }
+
+    >.snapper {
+        position: absolute;
+        top: $tabHeight;
+        left: 0rem;
+        height: calc(100% - #{$tabHeight});
+        width: 100%;
+        touch-action: none;
+
+        >.right {
+            position: absolute;
+            top: 0rem;
+            right: 0rem;
+            height: 100%;
+            width: 15%;
+            max-width: 6rem;
+        }
+
+        >.left {
+            position: absolute;
+            top: 0rem;
+            left: 0rem;
+            height: 100%;
+            width: 15%;
+            max-width: 6rem;
+        }
+
+        >.top {
+            position: absolute;
+            top: 0rem;
+            left: 0rem;
+            height: 15%;
+            max-height: 6rem;
+            width: 100%;
+        }
+
+        >.bottom {
+            position: absolute;
+            bottom: 0rem;
+            left: 0rem;
+            height: 15%;
+            max-height: 6rem;
+            width: 100%;
+        }
+
+        >.highlight {
+            position: absolute;
+            background-color: var(--snapperContentHighlight);
+            pointer-events: none;
+
+            &.m {
+                top: 0rem;
+                left: 0rem;
+                height: 100%;
+                width: 100%;
+            }
+
+            &.r {
+                top: 0rem;
+                right: 0rem;
+                height: 100%;
+                width: 50%;
+            }
+
+            &.l {
+                top: 0rem;
+                left: 0rem;
+                height: 100%;
+                width: 50%;
+            }
+
+            &.t {
+                top: 0rem;
+                left: 0rem;
+                height: 50%;
+                width: 100%;
+            }
+
+            &.b {
+                bottom: 0rem;
+                left: 0rem;
+                height: 50%;
+                width: 100%;
+            }
+        }
+    }
+
+    .touch &>.snapper {
+        top: $tabHeightTouch;
+        height: calc(100% - #{$tabHeightTouch});
+    }
+}
+
+
+
+/*#####################################################################################################################################################################################
+//#     _____            _            _      _____            _        _                    ###########################################################################################
+//#    / ____|          | |          | |    / ____|          | |      (_)                   ###########################################################################################
+//#   | |     ___  _ __ | |_ _____  _| |_  | |     ___  _ __ | |_ __ _ _ _ __   ___ _ __    ###########################################################################################
+//#   | |    / _ \| '_ \| __/ _ \ \/ / __| | |    / _ \| '_ \| __/ _` | | '_ \ / _ \ '__|   ###########################################################################################
+//#   | |___| (_) | | | | ||  __/>  <| |_  | |___| (_) | | | | || (_| | | | | |  __/ |      ###########################################################################################
+//#    \_____\___/|_| |_|\__\___/_/\_\\__|  \_____\___/|_| |_|\__\__,_|_|_| |_|\___|_|      ###########################################################################################
+//###################################################################################################################################################################################*/
+ui-contextcontainer.content {
+    $deviderbasis: 1px;
+    $deviderChildThickness: 3rem;
+    $deviderChildBasis: 0.5rem;
+    $deviderChildBasisTouch: 1.1rem;
+    $deviderChildBasisHalf: $deviderChildBasis * 2;
+
+    display: flex;
+    touch-action: none;
+
+    &.horz {
+        flex-direction: row;
+
+        >ui-contextcontainerdevider {
+            >* {
+                cursor: ew-resize;
+                width: $deviderChildBasis;
+                height: 100%;
+                left: calc(-#{math.div($deviderChildBasis,2)} + 0.5px);
+
+                .touch & {
+                    height: $deviderChildThickness;
+                    width: $deviderChildBasisTouch;
+                    top: calc(50% - #{math.div($deviderChildThickness , 2)});
+                    left: calc(-#{math.div($deviderChildBasisTouch , 2)} + 0.5px);
+
+                    &::after {
+                        width: 0.3rem;
+                        height: 60%;
+                        top: 20%;
+                        left: calc(50% - 0.15rem);
+                    }
+                }
+            }
+        }
+    }
+
+    &.vert {
+        flex-direction: column;
+
+        >ui-contextcontainerdevider {
+            >* {
+                cursor: ns-resize;
+                height: $deviderChildBasis;
+                width: 100%;
+                top: calc(-#{math.div($deviderChildBasis , 2)} + 0.5px);
+
+                .touch & {
+                    width: $deviderChildThickness;
+                    height: $deviderChildBasisTouch;
+                    left: calc(50% - #{math.div($deviderChildThickness , 2)});
+                    top: calc(-#{math.div($deviderChildBasisTouch , 2)} + 0.5px);
+
+                    &::after {
+                        height: 0.3rem;
+                        width: 60%;
+                        left: 20%;
+                        top: calc(50% - 0.15rem);
+                    }
+                }
+            }
+        }
+    }
+
+    >ui-contextcontainerdevider {
+        display: block;
+        flex: 0 0 $deviderbasis;
+        background-color: var(--contextGroupDeviderColor);
+        position: relative;
+
+        .anim & {
+            transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+        }
+
+        >* {
+            position: absolute;
+            z-index: 1;
+
+            .anim & {
+                transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+            }
+
+            .touch.anim & {
+                &::after {
+                    transition: background-color var(--colorTransitionType) var(--colorTransitionTime);
+                }
+            }
+
+            &:hover {
+                background-color: var(--contextGroupSizerColor);
+            }
+
+            .touch & {
+                background-color: var(--contextGroupDeviderColor);
+                border-radius: 0.4rem;
+
+                &::after {
+                    content: '';
+                    background-color: var(--tabIconColor);
+                    position: absolute;
+                    border-radius: 0.2rem;
+                }
+            }
+        }
+    }
+}
+
+/*##################################
+ *#      _______    _              #
+ *#     |__   __|  | |             #
+ *#        | | __ _| |__  ___      #
+ *#        | |/ _` | '_ \/ __|     #
+ *#        | | (_| | |_) \__ \     #
+ *#        |_|\__,_|_.__/|___/     #
+ *################################*/
+ui-tabdropper {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+
+    >* {
+        width: 50%;
+
+        &.hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+ui-tab {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--tabColor);
+    border-right: solid;
+    border-width: 1px;
+    border-color: var(--tabBackGround);
+    padding-left: 0.1rem;
+    cursor: pointer;
+    border-radius: var(--tabCornerRadius) var(--tabCornerRadius) 0 0;
+    color: var(--tabTextColor);
+    justify-content: space-between;
+    height: $tabHeight;
+
+    .touch & {
+        height: $tabHeightTouch;
+    }
+
+    .anim & {
+        transition: background-color var(--colorTransitionType) var(--colorTransitionTime), color var(--colorTransitionType) var(--colorTransitionTime), border-color var(--colorTransitionType) var(--colorTransitionTime), height var(--sizeTransitionType) var(--sizeTransitionTime);
+    }
+
+    &:hover {
+        background-color: var(--tabColorHover);
+    }
+
+    &[selected] {
+        background-color: var(--tabColorSelect);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: inset 0px 0px 0px 2px var(--tabFocusColor);
+    }
+
+    >:first-child {
+        height: 100%;
+        min-width: 0.2rem;
+
+        &.icon {
+            box-sizing: border-box;
+            max-width: 3rem;
+            padding: 0.2rem;
+            fill: var(--tabIconColor);
+
+            .anim & {
+                transition: fill var(--colorTransitionType) var(--colorTransitionTime), padding var(--sizeTransitionType) var(--sizeTransitionTime);
+            }
+        }
+    }
+
+    >.name {
+        min-width: 3rem;
+        max-width: 12rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        user-select: none;
+        line-height: $tabHeight;
+        height: $tabHeight;
+        padding-left: 0.2rem;
+        padding-right: 0.6rem;
+
+        .touch & {
+            line-height: $tabHeightTouch;
+            height: $tabHeightTouch;
+        }
+
+        .anim & {
+            transition: line-height var(--sizeTransitionType) var(--sizeTransitionTime), height var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+    }
+
+    >.close {
+        box-sizing: border-box;
+        border-radius: 0.2rem;
+        margin: 0.2rem 0.2rem 0.2rem -0.4rem;
+        fill: var(--tabIconColor);
+        overflow: visible;
+        height: auto;
+        width: auto;
+
+        .touch & {
+            margin: 0.4rem;
+        }
+
+        .anim & {
+            transition: fill var(--colorTransitionType) var(--colorTransitionTime), background-color var(--colorTransitionType) var(--colorTransitionTime), margin var(--sizeTransitionType) var(--sizeTransitionTime);
+        }
+
+        &:hover {
+            background-color: var(--tabColorCloserHover);
+        }
+
+        &.waiting>* {
+            transform-origin: center;
+
+            @keyframes rotating {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(180deg);
+                }
+            }
+
+            animation: rotating ease-in-out 1.4s infinite;
+        }
+
+    }
+
+    .snapper {
+        position: absolute;
+        top: 0rem;
+        left: 0rem;
+        height: 100%;
+        width: 100%;
+        touch-action: none;
+        z-index: 999;
+
+        >.right {
+            position: absolute;
+            top: 0rem;
+            right: 0rem;
+            height: 100%;
+            width: 50%;
+        }
+
+        >.left {
+            position: absolute;
+            top: 0rem;
+            left: 0rem;
+            height: 100%;
+            width: 50%;
+        }
+
+        >.highlight {
+            position: absolute;
+            background-color: var(--snapperTabsHighlight);
+            pointer-events: none;
+        }
+
+        >.highlight.r {
+            top: 0rem;
+            right: 0rem;
+            height: 100%;
+            width: 50%;
+        }
+
+        >.highlight.l {
+            top: 0rem;
+            left: 0rem;
+            height: 100%;
+            width: 50%;
+        }
+    }
+}

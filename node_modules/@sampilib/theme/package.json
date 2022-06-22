@@ -1,0 +1,22 @@
+{
+    "name": "@sampilib/theme",
+    "version": "0.0.1",
+    "description": "Theme engine used to have multiple color and other css controlable presets for entire application",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SampiLib/Theme.git"
+    },
+    "author": "chocolateandmilkwin",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/SampiLib/Theme/issues"
+    },
+    "homepage": "https://github.com/SampiLib/Theme#readme",
+    "dependencies": {
+        "@sampilib/value": "^0.0.3"
+    }
+}
