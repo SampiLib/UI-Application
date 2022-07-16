@@ -1,10 +1,11 @@
 import './content.scss'
 import '../styling/common';
 import { remToPx } from "./common"
-import { grey } from '@sampilib/colors';
-import { attachSimpleEventHandler, E } from '../common/events';
 import { initWebComponentWithOptions, WebComponent } from '../common/webComponent';
+
+import { grey } from '@sampilib/colors';
 import { addThemeVariable } from '@sampilib/theme';
+import { attachSimpleEventHandler, E } from '@sampilib/events';
 
 addThemeVariable('contentBackGround', ['UI'], grey['50'], grey['900']);
 addThemeVariable('contentTextColor', ['UI'], grey['900'], grey['300']);

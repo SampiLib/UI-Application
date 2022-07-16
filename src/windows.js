@@ -3,11 +3,12 @@ import '../styling/common';
 import { animations, applyAnimation, applyScale, applyTouch, remToPx, scale, touch } from "./common"
 import { attachContextMenu } from './contextMenu';
 import { Content, selectedContent, ContentEventTypes } from './content';
-import { attachSimpleEventHandler, E } from '../common/events';
-import { close, drag_handle_horz, drag_handle_vert } from '@sampilib/icons';
 import { initWebComponentWithOptions, WebComponent, WebComponentSide } from '../common/webComponent';
-import { addThemeVariable } from '@sampilib/theme';
+
 import { grey, orange } from '@sampilib/colors';
+import { addThemeVariable } from '@sampilib/theme';
+import { attachSimpleEventHandler, E } from '@sampilib/events';
+import { close, drag_handle_horz, drag_handle_vert } from '@sampilib/icons';
 
 addThemeVariable('windowTitleColor', ['UI', 'Window'], grey['500'], grey['600']);
 addThemeVariable('windowTitleTextColor', ['UI', 'Window'], grey['900'], grey['300']);

@@ -3,9 +3,10 @@ import '../styling/common';
 import { close } from '@sampilib/icons';
 import { Content, ContentEventTypes, selectedContent, ContentBaseOptions, ContentContainer } from "./content";
 import { attachContextMenu } from "./contextMenu";
-import { E } from '../common/events';
 import { initWebComponent, initWebComponentWithOptions, WebComponent } from '../common/webComponent';
 import { remToPx, scale, touch } from './common';
+
+import { E } from '@sampilib/events';
 import { addThemeVariable } from '@sampilib/theme';
 import { blue, grey, orange } from '@sampilib/colors';
 
